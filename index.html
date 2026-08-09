@@ -14,7 +14,8 @@
     --primary: #2F6E5E;
     --primary-dark: #1F4A3F;
     --rescue: #B3502E;
-    --rescue-soft: #F4E3DA;
+    --demo: #7A5B2E;
+    --demo-bg: #F3ECDF;
     --warn-bg: #FBEFE3;
     --warn-line: #E0B584;
     --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
@@ -31,7 +32,7 @@
   }
   .wrap{max-width:920px;margin:0 auto;}
 
-  header{margin-bottom:28px;}
+  header{margin-bottom:24px;}
   .eyebrow{
     font-family:var(--mono);
     font-size:11px;
@@ -50,6 +51,31 @@
   }
   .sub{color:var(--ink-soft); font-size:15px; max-width:640px; line-height:1.5;}
 
+  /* main tabs */
+  .maintabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+    border-bottom:2px solid var(--line);
+  }
+  .maintabs button{
+    border:none;
+    background:transparent;
+    padding:12px 4px;
+    margin-right:20px;
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:15px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    margin-bottom:-2px;
+  }
+  .maintabs button.active{
+    color:var(--primary-dark);
+    border-bottom-color:var(--primary);
+  }
+
   .panel{
     background:var(--panel);
     border:1px solid var(--line);
@@ -57,35 +83,13 @@
     padding:26px;
     margin-bottom:20px;
   }
-
-  /* direction toggle */
-  .toggle{
-    display:flex;
-    background:var(--bg);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:4px;
-    gap:4px;
-    margin-bottom:24px;
+  .panel h3{
+    font-family:var(--serif);
+    font-size:17px;
+    margin:0 0 4px;
+    color:var(--ink);
   }
-  .toggle button{
-    flex:1;
-    border:none;
-    background:transparent;
-    padding:12px 10px;
-    font-family:var(--sans);
-    font-weight:600;
-    font-size:13.5px;
-    color:var(--ink-soft);
-    border-radius:7px;
-    cursor:pointer;
-    transition:all .15s ease;
-  }
-  .toggle button.active{
-    background:var(--primary);
-    color:#fff;
-    box-shadow:0 1px 3px rgba(0,0,0,.15);
-  }
+  .panel .stepnote{color:var(--ink-soft); font-size:13px; margin:0 0 18px;}
 
   .field{margin-bottom:18px;}
   label{
@@ -112,6 +116,36 @@
 
   .row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
   @media (max-width:560px){ .row{grid-template-columns:1fr;} }
+
+  .hint{font-size:12px; color:var(--ink-soft); margin-top:6px; line-height:1.4;}
+
+  /* DEMO card */
+  .demo-card{
+    background:var(--demo-bg);
+    border:1.5px solid #DCC79A;
+    border-radius:12px;
+    padding:18px 22px;
+    margin-top:4px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .demo-card .demo-label{
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--demo);
+    font-weight:700;
+  }
+  .demo-card .demo-sub{font-size:12px; color:#8A6A38; margin-top:2px;}
+  .demo-card .demo-val{
+    font-family:var(--mono);
+    font-size:28px;
+    font-weight:700;
+    color:#5C4520;
+  }
 
   /* slider */
   .slider-block{
@@ -153,8 +187,18 @@
   }
   .slider-labels{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-soft); margin-top:6px; font-family:var(--mono);}
 
-  .metadona-warn{
-    display:none;
+  .factor-note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:var(--bg);
+    border-left:3px solid var(--primary);
+    padding:10px 14px;
+    border-radius:0 6px 6px 0;
+    margin-top:8px;
+    line-height:1.5;
+  }
+
+  .metadona-warn, .patch-warn{
     background:var(--warn-bg);
     border:1px solid var(--warn-line);
     border-radius:10px;
@@ -164,7 +208,7 @@
     color:#7A4A1E;
     margin-top:14px;
   }
-  .metadona-warn strong{display:block; margin-bottom:4px;}
+  .metadona-warn strong, .patch-warn strong{display:block; margin-bottom:4px;}
 
   /* results */
   .results{
@@ -181,33 +225,6 @@
     margin:0 0 20px;
     color:#fff;
   }
-  .tape{
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:0;
-    font-family:var(--mono);
-    font-size:13px;
-    margin-bottom:22px;
-    border-radius:8px;
-    overflow:hidden;
-    background:rgba(255,255,255,.06);
-  }
-  .tape .step{
-    padding:12px 14px;
-    flex:1;
-    min-width:130px;
-    border-right:1px solid rgba(255,255,255,.15);
-  }
-  .tape .step:last-child{border-right:none;}
-  .tape .step .k{opacity:.6; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:4px;}
-  .tape .step .v{font-size:16px; font-weight:700;}
-  .tape .arrow{
-    padding:0 6px;
-    opacity:.4;
-    font-size:16px;
-  }
-
   .result-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
   @media (max-width:560px){ .result-grid{grid-template-columns:1fr;} }
   .result-card{
@@ -215,23 +232,12 @@
     border-radius:10px;
     padding:16px 18px;
   }
-  .result-card.rescue{
-    background:var(--rescue);
-  }
+  .result-card.rescue{ background:var(--rescue); }
+  .result-card.patch{ background:#3E6E52; }
   .result-card .label{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; opacity:.75; margin-bottom:6px;}
   .result-card .big{font-family:var(--mono); font-size:26px; font-weight:700;}
-  .result-card .note{font-size:12px; opacity:.75; margin-top:6px; line-height:1.4;}
-
-  .factor-note{
-    font-size:12.5px;
-    color:var(--ink-soft);
-    background:var(--bg);
-    border-left:3px solid var(--primary);
-    padding:10px 14px;
-    border-radius:0 6px 6px 0;
-    margin-top:8px;
-    line-height:1.5;
-  }
+  .result-card .note{font-size:12px; opacity:.85; margin-top:6px; line-height:1.4;}
+  .result-card .note.alert{color:#FFE1CE; font-weight:600;}
 
   details{
     background:var(--panel);
@@ -239,13 +245,7 @@
     border-radius:12px;
     padding:16px 22px;
   }
-  summary{
-    cursor:pointer;
-    font-weight:600;
-    font-size:14px;
-    color:var(--primary-dark);
-    list-style:none;
-  }
+  summary{cursor:pointer; font-weight:600; font-size:14px; color:var(--primary-dark); list-style:none;}
   summary::-webkit-details-marker{display:none;}
   summary:before{content:"▸ "; }
   details[open] summary:before{content:"▾ ";}
@@ -255,15 +255,32 @@
   td{font-family:var(--mono);}
 
   .disclaimer{
-    font-size:12px;
-    color:var(--ink-soft);
-    text-align:center;
-    margin-top:24px;
-    line-height:1.6;
-    max-width:640px;
-    margin-left:auto;
-    margin-right:auto;
+    font-size:12px; color:var(--ink-soft); text-align:center; margin-top:24px;
+    line-height:1.6; max-width:640px; margin-left:auto; margin-right:auto;
   }
+
+  .conc-result{
+    background:var(--primary-dark);
+    color:#fff;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:10px;
+  }
+  .conc-result .label{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; opacity:.75; margin-bottom:6px;}
+  .conc-result .big{font-family:var(--mono); font-size:26px; font-weight:700;}
+  .conc-result .note{font-size:12.5px; opacity:.8; margin-top:6px;}
+
+  #tab-concentracion{display:none;}
+  #tab-ajuste{display:none;}
+
+  input[type=range].bidir{
+    background:linear-gradient(to right,
+      var(--rescue) 0%, var(--rescue) var(--pctneg,50%),
+      var(--line) var(--pctneg,50%), var(--line) var(--pctpos,50%),
+      var(--primary) var(--pctpos,50%), var(--primary) 100%);
+  }
+  input[type=range].bidir::-webkit-slider-thumb{ border-color: var(--ink); }
+  input[type=range].bidir::-moz-range-thumb{ border-color: var(--ink); }
 </style>
 </head>
 <body>
@@ -272,206 +289,459 @@
   <header>
     <p class="eyebrow">Farmacología clínica · Cuidados Paliativos</p>
     <h1>Rotación de Opioides</h1>
-    <p class="sub">Calculadora de dosis equianalgésica con ajuste por tolerancia incompleta y cálculo de rescates.</p>
+    <p class="sub">Cálculo de dosis equianalgésica vía DEMO, ajuste por tolerancia incompleta, redondeo de parches y rescates.</p>
   </header>
 
-  <div class="panel">
-    <div class="toggle">
-      <button id="btn-directo" class="active" onclick="setDirection('directo')">Morfina → Otro opioide</button>
-      <button id="btn-inverso" onclick="setDirection('inverso')">Otro opioide → Morfina</button>
-    </div>
+  <div class="maintabs">
+    <button id="tab-btn-rotacion" class="active" onclick="showTab('rotacion')">Rotación de opioides</button>
+    <button id="tab-btn-concentracion" onclick="showTab('concentracion')">Dosis según concentración</button>
+    <button id="tab-btn-ajuste" onclick="showTab('ajuste')">Ajuste de dosis</button>
+  </div>
 
-    <!-- MODO DIRECTO -->
-    <div id="modo-directo">
+  <!-- ======================= TAB 1: ROTACIÓN ======================= -->
+  <div id="tab-rotacion">
+
+    <div class="panel">
+      <h3>Paso 1 — Opioide actual</h3>
+      <p class="stepnote">Calculamos primero la DEMO (dosis equianalgésica de morfina oral).</p>
+
       <div class="row">
         <div class="field">
-          <label for="dosis-morfina">Dosis total de morfina (mg/día)</label>
-          <input type="number" id="dosis-morfina" value="112.5" step="0.5" min="0" oninput="calcular()">
+          <label for="origen-opioide">Opioide actual</label>
+          <select id="origen-opioide" onchange="onOrigenChange()"></select>
+          <p class="hint">La metadona no está disponible como origen: su cinética no lineal no admite un factor de conversión fijo confiable.</p>
         </div>
         <div class="field">
-          <label for="via-morfina">Vía de la morfina actual</label>
-          <select id="via-morfina" onchange="calcular()">
-            <option value="vo">Oral (VO)</option>
-            <option value="sc">Subcutánea (SC)</option>
-            <option value="ev">Endovenosa (EV)</option>
+          <label for="origen-dosis">Dosis actual (<span id="origen-unit">mg/día</span>)</label>
+          <input type="number" id="origen-dosis" value="112.5" step="0.5" min="0" oninput="calcular()">
+          <p class="hint" id="origen-hint"></p>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div>
+          <div class="demo-label">DEMO — Dosis Equianalgésica de Morfina Oral</div>
+          <div class="demo-sub">Base común para convertir a cualquier opioide destino</div>
+        </div>
+        <div class="demo-val" id="demo-val">— mg/día</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Paso 2 — Opioide destino</h3>
+      <p class="stepnote">Partimos de la DEMO calculada arriba.</p>
+
+      <div class="field">
+        <label for="destino-opioide">Opioide destino</label>
+        <select id="destino-opioide" onchange="onDestinoChange()"></select>
+      </div>
+
+      <div class="field" id="tomas-field">
+        <label for="tomas-select">Frecuencia de administración</label>
+        <select id="tomas-select" onchange="calcular()"></select>
+        <p class="factor-note" id="tomas-note"></p>
+      </div>
+
+      <div class="field">
+        <label>Reducción de dosis por tolerancia incompleta</label>
+        <div class="slider-block">
+          <div class="slider-top">
+            <span style="font-size:13px;color:var(--ink-soft);">Ajustá según riesgo del paciente</span>
+            <span class="val" id="slider-val">30%</span>
+          </div>
+          <input type="range" id="reduccion" min="0" max="50" value="30" step="5" oninput="updateSlider(); calcular()">
+          <div class="slider-labels"><span>0%</span><span>25%</span><span>50%</span></div>
+        </div>
+        <p class="factor-note">Recomendado 30–50% en rotaciones estándar por tolerancia cruzada incompleta. Usá 0% solo si la rotación es por otra causa (ej. vía) y no hay riesgo de sobredosificación relativa.</p>
+      </div>
+    </div>
+
+    <div class="results">
+      <h2>Resultado</h2>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="label">Equianalgésica (sin reducir)</div>
+          <div class="big" id="out-equi">—</div>
+          <div class="note" id="out-equi-note"></div>
+        </div>
+        <div class="result-card">
+          <div class="label">Dosis final ajustada</div>
+          <div class="big" id="out-final">—</div>
+          <div class="note" id="out-final-note"></div>
+        </div>
+        <div class="result-card" id="card-toma">
+          <div class="label">Dosis por toma</div>
+          <div class="big" id="out-toma">—</div>
+          <div class="note" id="out-toma-note"></div>
+        </div>
+        <div class="result-card patch" id="card-patch" style="display:none;">
+          <div class="label">Parche sugerido</div>
+          <div class="big" id="out-patch">—</div>
+          <div class="note" id="out-patch-note"></div>
+        </div>
+        <div class="result-card rescue">
+          <div class="label">Rescate (10%)</div>
+          <div class="big" id="out-rescate">—</div>
+          <div class="note" id="out-rescate-note"></div>
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>Ver tabla de factores de conversión utilizados</summary>
+      <table>
+        <thead><tr><th>Opioide</th><th>Factor vs. Morfina VO (DEMO)</th><th>Observación</th></tr></thead>
+        <tbody>
+          <tr><td>Morfina SC</td><td>2 : 1</td><td>VO ÷ 2</td></tr>
+          <tr><td>Morfina EV</td><td>2.5 : 1</td><td>promedio del rango 2–3:1</td></tr>
+          <tr><td>Oxicodona VO</td><td>1.5 : 1</td><td>VO ÷ 1.5</td></tr>
+          <tr><td>Hidromorfona VO</td><td>5 : 1</td><td>VO ÷ 5</td></tr>
+          <tr><td>Fentanilo parenteral</td><td>100 : 1</td><td>VO(mg) ÷ 100 × 1000 = mcg</td></tr>
+          <tr><td>Fentanilo TD</td><td>tabla no lineal</td><td>por rangos de DEMO, valor comercial más cercano</td></tr>
+          <tr><td>Buprenorfina TD</td><td>75 : 1</td><td>dosis diaria (mcg/h×24÷1000) × 75; parches de 5/10/20 mcg/h, recambio c/7 días</td></tr>
+          <tr><td>Tramadol VO</td><td>1 : 10 (inverso)</td><td>VO × 10</td></tr>
+          <tr><td>Codeína VO</td><td>1 : 10 (inverso)</td><td>VO × 10</td></tr>
+          <tr><td>Metadona</td><td>DEMO &lt;100 → 5:1<br>DEMO 100–2000 → 10:1<br>DEMO &gt;2000 → 15:1</td><td>escalonado según DEMO; solo como destino</td></tr>
+        </tbody>
+      </table>
+    </details>
+
+    <p class="disclaimer">Herramienta de apoyo al cálculo — no reemplaza el criterio clínico. Toda rotación de opioides requiere reevaluación clínica estrecha, titulación individualizada y disponibilidad de rescates. La metadona en particular requiere manejo por profesional con experiencia específica.</p>
+  </div>
+
+  <!-- ======================= TAB 2: CONCENTRACIÓN ======================= -->
+  <div id="tab-concentracion">
+
+    <div class="panel">
+      <h3>Dosis según concentración de solución</h3>
+      <p class="stepnote">Para Tramadol, Morfina y Metadona en solución oral o gotas.</p>
+
+      <div class="row">
+        <div class="field">
+          <label for="conc-farmaco">Fármaco</label>
+          <select id="conc-farmaco" onchange="calcularConc()">
+            <option value="Tramadol">Tramadol</option>
+            <option value="Morfina">Morfina</option>
+            <option value="Metadona">Metadona</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="conc-porcentaje">Concentración de la solución</label>
+          <select id="conc-porcentaje" onchange="calcularConc()">
+            <option value="0.5">0.5%</option>
+            <option value="1" selected>1%</option>
+            <option value="2">2%</option>
+            <option value="3">3%</option>
+            <option value="5">5%</option>
           </select>
         </div>
       </div>
+      <p class="hint" id="conc-mgml-hint"></p>
+    </div>
+
+    <div class="panel">
+      <h3>Dosis (mg) → Volumen a administrar</h3>
       <div class="field">
-        <label for="opioide-destino">Opioide destino</label>
-        <select id="opioide-destino" onchange="populateTomas(); calcular()">
-          <option value="oxicodona_vo">Oxicodona oral (1.5:1)</option>
-          <option value="morfina_sc">Morfina subcutánea (2:1)</option>
-          <option value="morfina_ev">Morfina endovenosa (2.5:1)</option>
-          <option value="hidromorfona_vo">Hidromorfona oral (5:1)</option>
-          <option value="fentanilo_parenteral">Fentanilo parenteral (100:1)</option>
-          <option value="fentanilo_td">Fentanilo transdérmico (tabla)</option>
-          <option value="tramadol_vo">Tramadol oral (1:10)</option>
-          <option value="codeina_vo">Codeína oral (1:10)</option>
-          <option value="buprenorfina_td">Buprenorfina transdérmica (75:1)</option>
-          <option value="metadona">Metadona (escalonado)</option>
-        </select>
+        <label for="conc-dosis-mg">Dosis deseada (mg)</label>
+        <input type="number" id="conc-dosis-mg" value="10" step="0.5" min="0" oninput="calcularConc()">
+      </div>
+      <div class="conc-result">
+        <div class="label">Volumen a administrar</div>
+        <div class="big" id="conc-out-ml">— mL</div>
+        <div class="note" id="conc-out-ml-note"></div>
       </div>
     </div>
 
-    <!-- MODO INVERSO -->
-    <div id="modo-inverso" style="display:none;">
-      <div class="row">
+    <div class="panel">
+      <h3>Volumen (mL) → Dosis administrada</h3>
+      <div class="field">
+        <label for="conc-vol-ml">Volumen a administrar (mL)</label>
+        <input type="number" id="conc-vol-ml" value="1" step="0.1" min="0" oninput="calcularConc()">
+      </div>
+      <div class="conc-result">
+        <div class="label">Dosis equivalente</div>
+        <div class="big" id="conc-out-mg">— mg</div>
+        <div class="note" id="conc-out-mg-note"></div>
+      </div>
+    </div>
+
+    <p class="disclaimer">Regla de conversión: una solución al X% contiene X×10 mg por mL (ej. 1% = 10 mg/mL). Verificá siempre la concentración real en el envase antes de administrar.</p>
+  </div>
+
+  <!-- ======================= TAB 3: AJUSTE DE DOSIS ======================= -->
+  <div id="tab-ajuste">
+
+    <div class="panel">
+      <h3>Dosis actual del paciente</h3>
+      <p class="stepnote">Para dolor controlado (reducir) o no controlado (aumentar), sin cambiar de fármaco.</p>
+
+      <div class="field">
+        <label for="ajuste-opioide">Opioide</label>
+        <select id="ajuste-opioide" onchange="onAjusteOpioideChange()"></select>
+      </div>
+
+      <!-- Campos para fármacos NO parche -->
+      <div id="ajuste-normal-fields">
         <div class="field">
-          <label for="opioide-origen">Opioide actual</label>
-          <select id="opioide-origen" onchange="calcular()">
-            <option value="oxicodona_vo">Oxicodona oral (1.5:1)</option>
-            <option value="morfina_sc">Morfina subcutánea (2:1)</option>
-            <option value="morfina_ev">Morfina endovenosa (2.5:1)</option>
-            <option value="hidromorfona_vo">Hidromorfona oral (5:1)</option>
-            <option value="fentanilo_parenteral">Fentanilo parenteral (100:1)</option>
-            <option value="tramadol_vo">Tramadol oral (1:10)</option>
-            <option value="codeina_vo">Codeína oral (1:10)</option>
-            <option value="buprenorfina_td">Buprenorfina transdérmica (75:1)</option>
+          <label for="ajuste-modo">Cómo querés ingresar la dosis</label>
+          <select id="ajuste-modo" onchange="onAjusteModoChange()">
+            <option value="directa">Dosis directa (mg)</option>
+            <option value="concentracion">Por concentración de solución (mL)</option>
           </select>
         </div>
+
+        <div class="row" id="ajuste-directa-row">
+          <div class="field">
+            <label for="ajuste-dosis-mg">Dosis por toma (<span id="ajuste-unit">mg</span>)</label>
+            <input type="number" id="ajuste-dosis-mg" value="10" step="0.5" min="0" oninput="calcularAjuste()">
+          </div>
+          <div class="field">
+            <label for="ajuste-horas">Cada cuántas horas</label>
+            <input type="number" id="ajuste-horas" value="6" step="1" min="1" max="24" oninput="calcularAjuste()">
+          </div>
+        </div>
+
+        <div class="row" id="ajuste-conc-row" style="display:none;">
+          <div class="field">
+            <label for="ajuste-conc-pct">Concentración</label>
+            <select id="ajuste-conc-pct" onchange="calcularAjuste()">
+              <option value="0.5">0.5%</option>
+              <option value="1" selected>1%</option>
+              <option value="2">2%</option>
+              <option value="3">3%</option>
+              <option value="5">5%</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ajuste-conc-ml">Volumen por toma (mL)</label>
+            <input type="number" id="ajuste-conc-ml" value="1" step="0.1" min="0" oninput="calcularAjuste()">
+          </div>
+          <div class="field">
+            <label for="ajuste-conc-horas">Cada cuántas horas</label>
+            <input type="number" id="ajuste-conc-horas" value="6" step="1" min="1" max="24" oninput="calcularAjuste()">
+          </div>
+        </div>
+        <p class="hint" id="ajuste-horas-hint"></p>
+      </div>
+
+      <!-- Campo para fármacos PARCHE (buprenorfina / fentanilo TD) -->
+      <div id="ajuste-patch-fields" style="display:none;">
         <div class="field">
-          <label for="dosis-origen">Dosis total actual (mg/día, o mcg/día si fentanilo)</label>
-          <input type="number" id="dosis-origen" value="75" step="0.5" min="0" oninput="calcular()">
+          <label for="ajuste-patch-dosis">Dosis actual del parche (mcg/h)</label>
+          <input type="number" id="ajuste-patch-dosis" value="10" step="1" min="0" oninput="calcularAjuste()">
         </div>
+        <p class="hint">El parche no tiene "tomas": se ajusta la tasa de liberación (mcg/h), no hay horario de dosis a marcar.</p>
       </div>
+    </div>
+
+    <div class="panel">
+      <h3>Magnitud del ajuste</h3>
       <div class="field">
-        <label for="via-morfina-destino">Vía de morfina destino</label>
-        <select id="via-morfina-destino" onchange="populateTomas(); calcular()">
-          <option value="vo">Oral (VO)</option>
-          <option value="sc">Subcutánea (SC)</option>
-          <option value="ev">Endovenosa (EV)</option>
-        </select>
-      </div>
-      <div id="metadona-inversa-warn" class="metadona-warn">
-        <strong>Metadona no incluida en rotación inversa</strong>
-        Por su vida media prolongada y cinética no lineal, el pasaje desde metadona hacia otro opioide no admite un factor de conversión fijo confiable. Requiere manejo individualizado — no lo calcules con esta herramienta.
-      </div>
-    </div>
-
-    <div class="field" id="tomas-field">
-      <label for="tomas-select">Frecuencia de administración</label>
-      <select id="tomas-select" onchange="calcular()"></select>
-      <p class="factor-note" id="tomas-note"></p>
-    </div>
-
-    <div class="field" style="margin-top:22px;">
-      <label>Reducción de dosis por tolerancia incompleta</label>
-      <div class="slider-block">
-        <div class="slider-top">
-          <span style="font-size:13px;color:var(--ink-soft);">Ajustá según riesgo del paciente</span>
-          <span class="val" id="slider-val">30%</span>
-        </div>
-        <input type="range" id="reduccion" min="0" max="50" value="30" step="5" oninput="updateSlider(); calcular()">
-        <div class="slider-labels">
-          <span>0%</span>
-          <span>25%</span>
-          <span>50%</span>
+        <div class="slider-block">
+          <div class="slider-top">
+            <span style="font-size:13px;color:var(--ink-soft);" id="ajuste-slider-context">Dolor controlado → reducir · Dolor no controlado → aumentar</span>
+            <span class="val" id="ajuste-slider-val">+0%</span>
+          </div>
+          <input type="range" class="bidir" id="ajuste-slider" min="-100" max="100" value="0" step="5" oninput="updateAjusteSlider(); calcularAjuste()">
+          <div class="slider-labels"><span>-100% (reducir)</span><span>0%</span><span>+100% (aumentar)</span></div>
         </div>
       </div>
-      <p class="factor-note">Recomendado 30–50% en rotaciones estándar por tolerancia cruzada incompleta. Usá 0% solo si la rotación es por otra causa (ej. vía) y no hay riesgo de sobredosificación relativa.</p>
     </div>
-  </div>
 
-  <div class="results">
-    <h2>Resultado</h2>
-    <div class="tape" id="tape"></div>
-    <div class="result-grid">
-      <div class="result-card">
-        <div class="label">Dosis equianalgésica (sin reducir)</div>
-        <div class="big" id="out-equi">—</div>
-        <div class="note" id="out-equi-note"></div>
-      </div>
-      <div class="result-card">
-        <div class="label">Dosis final ajustada</div>
-        <div class="big" id="out-final">—</div>
-        <div class="note" id="out-final-note"></div>
-      </div>
-      <div class="result-card">
-        <div class="label">Dosis por toma</div>
-        <div class="big" id="out-toma">—</div>
-        <div class="note" id="out-toma-note"></div>
-      </div>
-      <div class="result-card rescue">
-        <div class="label">Rescate (10% dosis final)</div>
-        <div class="big" id="out-rescate">—</div>
-        <div class="note" id="out-rescate-note"></div>
+    <div class="results">
+      <h2>Resultado</h2>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="label">Dosis total actual</div>
+          <div class="big" id="aj-out-total-actual">—</div>
+          <div class="note" id="aj-out-total-actual-note"></div>
+        </div>
+        <div class="result-card">
+          <div class="label">Dosis total nueva</div>
+          <div class="big" id="aj-out-total-nueva">—</div>
+          <div class="note" id="aj-out-total-nueva-note"></div>
+        </div>
+        <div class="result-card" id="aj-card-toma">
+          <div class="label">Dosis nueva por toma</div>
+          <div class="big" id="aj-out-toma">—</div>
+          <div class="note" id="aj-out-toma-note"></div>
+        </div>
+        <div class="result-card patch" id="aj-card-patch" style="display:none;">
+          <div class="label">Parche sugerido</div>
+          <div class="big" id="aj-out-patch">—</div>
+          <div class="note" id="aj-out-patch-note"></div>
+        </div>
+        <div class="result-card rescue">
+          <div class="label">Rescate nuevo</div>
+          <div class="big" id="aj-out-rescate">—</div>
+          <div class="note" id="aj-out-rescate-note"></div>
+        </div>
+        <div class="result-card rescue" id="aj-card-maxrescates">
+          <div class="label">Máximo de rescates/día</div>
+          <div class="big" id="aj-out-maxrescates">—</div>
+          <div class="note">igual al número de tomas diarias</div>
+        </div>
       </div>
     </div>
+
+    <p class="disclaimer">Todo ajuste por dolor no controlado requiere reevaluación clínica antes y después del cambio. Un aumento &gt;50% o reducciones marcadas ameritan control estrecho, especialmente en pacientes frágiles.</p>
   </div>
-
-  <details>
-    <summary>Ver tabla de factores de conversión utilizados</summary>
-    <table>
-      <thead><tr><th>Opioide</th><th>Factor vs. Morfina VO</th><th>Observación</th></tr></thead>
-      <tbody>
-        <tr><td>Morfina SC</td><td>2 : 1</td><td>VO ÷ 2</td></tr>
-        <tr><td>Morfina EV</td><td>2.5 : 1</td><td>promedio del rango 2–3:1</td></tr>
-        <tr><td>Oxicodona VO</td><td>1.5 : 1</td><td>VO ÷ 1.5</td></tr>
-        <tr><td>Hidromorfona VO</td><td>5 : 1</td><td>VO ÷ 5</td></tr>
-        <tr><td>Fentanilo parenteral</td><td>100 : 1</td><td>VO(mg) ÷ 100 × 1000 = mcg</td></tr>
-        <tr><td>Fentanilo TD</td><td>tabla no lineal</td><td>por rangos de DEM, no factor fijo</td></tr>
-        <tr><td>Buprenorfina TD</td><td>75 : 1</td><td>VO ÷ 75</td></tr>
-        <tr><td>Tramadol VO</td><td>1 : 10 (inverso)</td><td>VO × 10</td></tr>
-        <tr><td>Codeína VO</td><td>1 : 10 (inverso)</td><td>VO × 10</td></tr>
-        <tr><td>Metadona</td><td>DEM &lt;100 → 5:1<br>DEM 100–2000 → 10:1<br>DEM &gt;2000 → 15:1</td><td>escalonado según dosis equivalente de morfina previa</td></tr>
-      </tbody>
-    </table>
-  </details>
-
-  <p class="disclaimer">Herramienta de apoyo al cálculo — no reemplaza el criterio clínico. Toda rotación de opioides requiere reevaluación clínica estrecha, titulación individualizada y disponibilidad de rescates. La metadona en particular requiere manejo por profesional con experiencia específica.</p>
 
 </div>
 
 <script>
-let direction = 'directo';
+/* ===================== TABS PRINCIPALES ===================== */
+function showTab(tab){
+  document.getElementById('tab-rotacion').style.display = tab==='rotacion' ? 'block':'none';
+  document.getElementById('tab-concentracion').style.display = tab==='concentracion' ? 'block':'none';
+  document.getElementById('tab-ajuste').style.display = tab==='ajuste' ? 'block':'none';
+  document.getElementById('tab-btn-rotacion').classList.toggle('active', tab==='rotacion');
+  document.getElementById('tab-btn-concentracion').classList.toggle('active', tab==='concentracion');
+  document.getElementById('tab-btn-ajuste').classList.toggle('active', tab==='ajuste');
+}
 
-// factor = mg de morfina VO equivalentes por 1 mg (o 1 mcg para fentanilo) del fármaco destino
-const FACTORS = {
-  morfina_vo:            {factor: 1,     unit:'mg', label:'Morfina VO',            dosesPerDay:6, doseInterval:'c/4h'},
-  morfina_sc:             {factor: 2,     unit:'mg', label:'Morfina SC',            dosesPerDay:24, doseInterval:'c/1h (o BIC)'},
-  morfina_ev:             {factor: 2.5,   unit:'mg', label:'Morfina EV',            dosesPerDay:24, doseInterval:'c/1h (o BIC)'},
-  oxicodona_vo:           {factor: 1.5,   unit:'mg', label:'Oxicodona VO',          dosesPerDay:2,  doseInterval:'c/12h (LP)'},
-  hidromorfona_vo:        {factor: 5,     unit:'mg', label:'Hidromorfona VO',       dosesPerDay:2,  doseInterval:'c/12h (LP)'},
-  fentanilo_parenteral:   {factor: 0.1,   unit:'mcg',label:'Fentanilo parenteral',  dosesPerDay:24, doseInterval:'BIC continua'}, // 1mcg fent = 0.1mg morfina VO (100:1 => 100mg VO=1000mcg => 1mg VO=10mcg => 1mcg=0.1mg)
-  tramadol_vo:            {factor: 0.1,   unit:'mg', label:'Tramadol VO',           dosesPerDay:4,  doseInterval:'c/6h'},
-  codeina_vo:             {factor: 0.1,   unit:'mg', label:'Codeína VO',            dosesPerDay:4,  doseInterval:'c/6h'},
-  buprenorfina_td:        {factor: 75,    unit:'mg', label:'Buprenorfina TD',       dosesPerDay:1,  doseInterval:'parche c/72-96h'},
+/* ===================== TABLA FENTANILO TD ===================== */
+// mg morfina VO/día (rango) -> mcg/h parche (valores comerciales habituales)
+const FENTANILO_TD_TABLE = [
+  {min:0,   max:44,   mcgh:12},
+  {min:45,  max:89,   mcgh:25},
+  {min:90,  max:134,  mcgh:37},
+  {min:135, max:179,  mcgh:50},
+  {min:180, max:224,  mcgh:62},
+  {min:225, max:314,  mcgh:75},
+  {min:315, max:404,  mcgh:100},
+];
+
+function fentaniloTDtoDEMO(mcgh){
+  let best = FENTANILO_TD_TABLE[0], bestDiff = Infinity;
+  FENTANILO_TD_TABLE.forEach(r=>{
+    const diff = Math.abs(r.mcgh-mcgh);
+    if(diff < bestDiff){ bestDiff = diff; best = r; }
+  });
+  return (best.min+best.max)/2;
+}
+function fentaniloTDfromDEMO(demo){
+  if(demo > 404) return FENTANILO_TD_TABLE[FENTANILO_TD_TABLE.length-1].mcgh;
+  const row = FENTANILO_TD_TABLE.find(r => demo>=r.min && demo<=r.max);
+  return row ? row.mcgh : FENTANILO_TD_TABLE[0].mcgh;
+}
+
+function metadonaRatio(demo){
+  if(demo < 100) return 5;
+  if(demo <= 2000) return 10;
+  return 15;
+}
+
+/* ===================== REGISTRO DE OPIOIDES ===================== */
+const OPIOIDS = {
+  morfina_vo: {
+    label:'Morfina oral (VO)', unit:'mg', unitDay:'mg/día',
+    toDEMO:d=>d*1, fromDEMO:demo=>demo*1,
+    freq:{options:[4,5,6], default:6}
+  },
+  morfina_sc: {
+    label:'Morfina subcutánea (SC)', unit:'mg', unitDay:'mg/día',
+    toDEMO:d=>d*2, fromDEMO:demo=>demo/2,
+    freq:{options:[4,6,24], default:6, label24:'Continua (BIC)'}
+  },
+  morfina_ev: {
+    label:'Morfina endovenosa (EV)', unit:'mg', unitDay:'mg/día',
+    toDEMO:d=>d*2.5, fromDEMO:demo=>demo/2.5,
+    freq:{options:[4,6,24], default:24, label24:'Continua (BIC)'}
+  },
+  oxicodona_vo: {
+    label:'Oxicodona oral', unit:'mg', unitDay:'mg/día',
+    toDEMO:d=>d*1.5, fromDEMO:demo=>demo/1.5,
+    freq:{options:[2,3,4], default:2}
+  },
+  hidromorfona_vo: {
+    label:'Hidromorfona oral', unit:'mg', unitDay:'mg/día',
+    toDEMO:d=>d*5, fromDEMO:demo=>demo/5,
+    freq:{options:[1,2], default:2}
+  },
+  fentanilo_parenteral: {
+    label:'Fentanilo parenteral', unit:'mcg', unitDay:'mcg/día',
+    toDEMO:d=>d*0.1, fromDEMO:demo=>demo*10,
+    freq:{options:[24], default:24, label24:'Continua (BIC)'}
+  },
+  fentanilo_td: {
+    label:'Fentanilo transdérmico', unit:'mcg/h', unitDay:'mcg/h',
+    isPatch:true, patchInterval:'Parche · recambio c/72h', patchUnitsList:'12, 25, 37, 50, 62, 75, 100 mcg/h',
+    toDEMO: mcgh=>fentaniloTDtoDEMO(mcgh), fromDEMO: demo=>fentaniloTDfromDEMO(demo),
+    freq:{fixed:true, label:'Parche c/72h'}
+  },
+  buprenorfina_td: {
+    label:'Buprenorfina transdérmica', unit:'mcg/h', unitDay:'mcg/h',
+    isPatch:true, patchInterval:'Parche · recambio c/7 días', patchSizes:[5,10,20],
+    toDEMO: mcgh=>(mcgh*24/1000)*75, fromDEMO: demo=>(demo/75)*1000/24,
+    freq:{fixed:true, label:'Parche c/7 días'}
+  },
+  tramadol_vo: {
+    label:'Tramadol oral', unit:'mg', unitDay:'mg/día',
+    toDEMO:d=>d*0.1, fromDEMO:demo=>demo*10,
+    freq:{options:[3,4], default:4}
+  },
+  codeina_vo: {
+    label:'Codeína oral', unit:'mg', unitDay:'mg/día',
+    toDEMO:d=>d*0.1, fromDEMO:demo=>demo*10,
+    freq:{options:[3,4,6], default:4}
+  },
+  metadona: {
+    label:'Metadona', unit:'mg', unitDay:'mg/día', destinoOnly:true,
+    freq:{options:[2,3], default:3}
+  }
 };
 
-// Frecuencias típicas de administración por fármaco (tomas/día habituales)
-const DOSE_OPTIONS = {
-  morfina_vo:            {options:[4,5,6], default:6},
-  morfina_sc:             {options:[4,6,24], default:6, label24:'Continua (BIC)'},
-  morfina_ev:             {options:[4,6,24], default:24, label24:'Continua (BIC)'},
-  oxicodona_vo:           {options:[2,3,4], default:2},
-  hidromorfona_vo:        {options:[1,2], default:2},
-  fentanilo_parenteral:   {options:[24], default:24, label24:'Continua (BIC)'},
-  tramadol_vo:            {options:[3,4], default:4},
-  codeina_vo:             {options:[3,4,6], default:4},
-  metadona:               {options:[2,3], default:3},
-  buprenorfina_td:        {fixed:true, dosesPerDay:1, label:'Parche c/72-96h'},
-  fentanilo_td:           {fixed:true, dosesPerDay:1, label:'Parche c/72h'},
-};
+const ORIGEN_KEYS = Object.keys(OPIOIDS).filter(k => !OPIOIDS[k].destinoOnly);
+const DESTINO_KEYS = Object.keys(OPIOIDS);
 
+function populateSelect(selectEl, keys){
+  selectEl.innerHTML = keys.map(k => `<option value="${k}">${OPIOIDS[k].label}</option>`).join('');
+}
+
+/* ===================== INIT SELECTS ===================== */
+const origenSelect = document.getElementById('origen-opioide');
+const destinoSelect = document.getElementById('destino-opioide');
+populateSelect(origenSelect, ORIGEN_KEYS);
+populateSelect(destinoSelect, DESTINO_KEYS);
+origenSelect.value = 'morfina_vo';
+destinoSelect.value = 'oxicodona_vo';
+
+function onOrigenChange(){
+  updateOrigenFieldUI();
+  calcular();
+}
+function onDestinoChange(){
+  populateTomas();
+  calcular();
+}
+
+function updateOrigenFieldUI(){
+  const key = origenSelect.value;
+  const cfg = OPIOIDS[key];
+  document.getElementById('origen-unit').textContent = cfg.unitDay;
+  const hint = document.getElementById('origen-hint');
+  if(key === 'buprenorfina_td'){
+    hint.textContent = 'Presentaciones habituales: parches de 5, 10 y 20 mcg/h (recambio c/7 días). Ingresá el mcg/h del parche actual.';
+  } else if(key === 'fentanilo_td'){
+    hint.textContent = 'Presentaciones habituales: ' + cfg.patchUnitsList + ' (recambio c/72h). Ingresá el mcg/h del parche actual.';
+  } else if(key === 'fentanilo_parenteral'){
+    hint.textContent = 'Dosis total en infusión continua (mcg/día).';
+  } else {
+    hint.textContent = '';
+  }
+}
+
+/* ===================== FRECUENCIA DE ADMINISTRACIÓN (destino) ===================== */
 function optionLabel(n, cfg){
   if(n===24) return cfg.label24 || 'Continua (BIC)';
   const horas = Math.round(24/n);
   return n+' veces/día (c/'+horas+'h)';
 }
 
-function activeFrequencyKey(){
-  if(direction === 'directo'){
-    return document.getElementById('opioide-destino').value;
-  } else {
-    const via = document.getElementById('via-morfina-destino').value;
-    return 'morfina_'+via;
-  }
-}
-
 function populateTomas(){
-  const key = activeFrequencyKey();
-  const cfg = DOSE_OPTIONS[key];
+  const key = destinoSelect.value;
+  const cfg = OPIOIDS[key].freq;
   const field = document.getElementById('tomas-field');
   const sel = document.getElementById('tomas-select');
   const note = document.getElementById('tomas-note');
@@ -483,34 +753,12 @@ function populateTomas(){
   field.style.display = 'block';
   const prevValue = sel.value;
   sel.innerHTML = cfg.options.map(n => `<option value="${n}">${optionLabel(n,cfg)}</option>`).join('');
-  // conservar selección previa si sigue siendo válida para este fármaco, si no usar default
   if(cfg.options.includes(parseInt(prevValue))){
     sel.value = prevValue;
   } else {
     sel.value = cfg.default;
   }
-  note.textContent = 'Elegí el esquema posológico habitual para ' + (FACTORS[key]?FACTORS[key].label:key.replace(/_/g,' ')) + '.';
-}
-
-// Tabla fentanilo TD (mg morfina VO/día -> mcg/h parche)
-const FENTANILO_TD_TABLE = [
-  {min:0,   max:44,   mcgh:12},
-  {min:45,  max:89,   mcgh:25},
-  {min:90,  max:134,  mcgh:37},
-  {min:135, max:179,  mcgh:50},
-  {min:180, max:224,  mcgh:62},
-  {min:225, max:314,  mcgh:75},
-  {min:315, max:404,  mcgh:100},
-];
-
-function setDirection(d){
-  direction = d;
-  document.getElementById('btn-directo').classList.toggle('active', d==='directo');
-  document.getElementById('btn-inverso').classList.toggle('active', d==='inverso');
-  document.getElementById('modo-directo').style.display = d==='directo' ? 'block':'none';
-  document.getElementById('modo-inverso').style.display = d==='inverso' ? 'block':'none';
-  populateTomas();
-  calcular();
+  note.textContent = 'Elegí el esquema posológico habitual para ' + OPIOIDS[key].label + '.';
 }
 
 function updateSlider(){
@@ -520,10 +768,19 @@ function updateSlider(){
   document.getElementById('slider-val').textContent = s.value + '%';
 }
 
-function metadonaRatio(dem){
-  if(dem < 100) return 5;
-  if(dem <= 2000) return 10;
-  return 15;
+/* ===================== REDONDEO DE PARCHE DE BUPRENORFINA ===================== */
+function roundPatchBup(raw){
+  const sizes = [5,10,20];
+  let chosen = sizes.find(s => raw <= s);
+  let exceeded = false;
+  if(chosen === undefined){ chosen = 20; exceeded = true; }
+  const idx = sizes.indexOf(chosen);
+  const lower = idx > 0 ? sizes[idx-1] : 0;
+  let closerToLower = false;
+  if(lower > 0){
+    closerToLower = Math.abs(raw-lower) < Math.abs(raw-chosen);
+  }
+  return {chosen, exceeded, closerToLower, lower};
 }
 
 function fmt(n){
@@ -531,145 +788,259 @@ function fmt(n){
   return n.toFixed(n < 10 ? 2 : 1).replace(/\.00$/,'').replace(/(\.\d)0$/,'$1');
 }
 
+/* ===================== CÁLCULO PRINCIPAL ===================== */
 function calcular(){
+  const origenKey = origenSelect.value;
+  const origenCfg = OPIOIDS[origenKey];
+  const dosisOrigen = parseFloat(document.getElementById('origen-dosis').value) || 0;
+
+  const demoUnreduced = origenCfg.toDEMO(dosisOrigen);
+  document.getElementById('demo-val').textContent = fmt(demoUnreduced) + ' mg/día';
+
+  const destinoKey = destinoSelect.value;
+  const destinoCfg = OPIOIDS[destinoKey];
   const reduccionPct = parseFloat(document.getElementById('reduccion').value);
-  let doseMorfinaVOequi = 0;   // dosis en equivalente de morfina VO (mg/día)
-  let destinoKey, destinoLabel, destinoUnit, destinoInfo;
-  let tapeSteps = [];
-  let isMetadona = false, isFentTD = false;
-  let metRatio = null, fentTDrow = null;
-
-  if(direction === 'directo'){
-    document.getElementById('metadona-inversa-warn').style.display = 'none';
-    const dosisMorfina = parseFloat(document.getElementById('dosis-morfina').value) || 0;
-    const via = document.getElementById('via-morfina').value;
-    // convertir a equivalente VO
-    const viaFactor = via==='vo' ? 1 : via==='sc' ? 2 : 2.5;
-    doseMorfinaVOequi = dosisMorfina * viaFactor;
-    destinoKey = document.getElementById('opioide-destino').value;
-
-    tapeSteps.push({k:'Morfina '+via.toUpperCase(), v: fmt(dosisMorfina)+' mg'});
-    if(via!=='vo') tapeSteps.push({k:'Equiv. Morfina VO', v: fmt(doseMorfinaVOequi)+' mg'});
-
-    if(destinoKey === 'metadona'){
-      isMetadona = true;
-      metRatio = metadonaRatio(doseMorfinaVOequi);
-      destinoLabel = 'Metadona'; destinoUnit='mg';
-    } else if(destinoKey === 'fentanilo_td'){
-      isFentTD = true;
-      fentTDrow = FENTANILO_TD_TABLE.find(r => doseMorfinaVOequi>=r.min && doseMorfinaVOequi<=r.max) || FENTANILO_TD_TABLE[FENTANILO_TD_TABLE.length-1];
-      destinoLabel = 'Fentanilo TD'; destinoUnit='mcg/h';
-    } else {
-      destinoInfo = FACTORS[destinoKey];
-      destinoLabel = destinoInfo.label; destinoUnit = destinoInfo.unit;
-    }
-  } else {
-    // inverso
-    const origenKey = document.getElementById('opioide-origen').value;
-    document.getElementById('metadona-inversa-warn').style.display = 'block';
-    const dosisOrigen = parseFloat(document.getElementById('dosis-origen').value) || 0;
-    const info = FACTORS[origenKey];
-    // equivalente en morfina VO = dosisOrigen * factor  (factor ya expresado como mg morfina VO por unidad)
-    doseMorfinaVOequi = dosisOrigen * info.factor;
-    tapeSteps.push({k:info.label, v: fmt(dosisOrigen)+' '+info.unit});
-    tapeSteps.push({k:'Equiv. Morfina VO', v: fmt(doseMorfinaVOequi)+' mg'});
-
-    const viaDestino = document.getElementById('via-morfina-destino').value;
-    const viaFactor = viaDestino==='vo' ? 1 : viaDestino==='sc' ? 0.5 : 0.4; // dividir por 2 o 2.5
-    const morfinaDestinoSinReducir = doseMorfinaVOequi * viaFactor;
-    destinoKey = 'morfina_'+viaDestino;
-    destinoLabel = 'Morfina '+viaDestino.toUpperCase();
-    destinoUnit = 'mg';
-    destinoInfo = {factor: viaDestino==='vo'?1:(viaDestino==='sc'?2:2.5), unit:'mg', label:destinoLabel, dosesPerDay: viaDestino==='vo'?6:24, doseInterval: viaDestino==='vo'?'c/4h':'c/1h (o BIC)'};
-  }
-
-  // calcular dosis equianalgésica sin reducir, en unidad destino
-  let equiSinReducir, dosesPerDay, doseInterval;
-  const freqKey = activeFrequencyKey();
-  const freqCfg = DOSE_OPTIONS[freqKey];
-
-  if(isMetadona){
-    equiSinReducir = doseMorfinaVOequi / metRatio;
-  } else if(isFentTD){
-    equiSinReducir = fentTDrow.mcgh;
-  } else {
-    equiSinReducir = doseMorfinaVOequi / destinoInfo.factor;
-  }
-
-  if(freqCfg && freqCfg.fixed){
-    dosesPerDay = freqCfg.dosesPerDay;
-    doseInterval = freqCfg.label;
-  } else if(freqCfg){
-    const sel = document.getElementById('tomas-select');
-    const n = parseInt(sel.value) || freqCfg.default;
-    dosesPerDay = n;
-    doseInterval = optionLabel(n, freqCfg);
-  } else {
-    dosesPerDay = 1; doseInterval = '';
-  }
-
   const reduccionFrac = reduccionPct/100;
-  let dosisFinal = isFentTD ? equiSinReducir : equiSinReducir * (1 - reduccionFrac);
+  const demoFinal = demoUnreduced * (1-reduccionFrac);
 
-  // para fentanilo TD, si hay reducción, buscamos escalón inferior en la tabla según MEQ reducido
-  if(isFentTD && reduccionFrac>0){
-    const demReducida = doseMorfinaVOequi * (1-reduccionFrac);
-    const rowReducida = FENTANILO_TD_TABLE.find(r => demReducida>=r.min && demReducida<=r.max) || FENTANILO_TD_TABLE[0];
-    dosisFinal = rowReducida.mcgh;
+  let equiSinReducir, dosisFinal;
+  if(destinoKey === 'metadona'){
+    const ratio = metadonaRatio(demoUnreduced);
+    equiSinReducir = demoUnreduced / ratio;
+    dosisFinal = equiSinReducir * (1-reduccionFrac);
+  } else {
+    equiSinReducir = destinoCfg.fromDEMO(demoUnreduced);
+    dosisFinal = destinoCfg.fromDEMO(demoFinal);
   }
 
-  const dosisPorToma = dosesPerDay>0 ? dosisFinal/dosesPerDay : dosisFinal;
+  // frecuencia
+  let dosesPerDay, doseInterval;
+  if(destinoCfg.freq.fixed){
+    dosesPerDay = 1; doseInterval = destinoCfg.freq.label;
+  } else {
+    const n = parseInt(document.getElementById('tomas-select').value) || destinoCfg.freq.default;
+    dosesPerDay = n;
+    doseInterval = optionLabel(n, destinoCfg.freq);
+  }
 
-  // rescate: 10% de dosis final diaria total, en la unidad de morfina de rescate más habitual (misma vía/fármaco que uso regular si es VO; si es TD/parche, rescate se da con morfina de acción rápida VO o SC equivalente)
-  let rescateBase = dosisFinal;
-  let rescateUnit = destinoUnit;
-  let rescateLabel = destinoLabel;
-  let rescateNote = '';
+  document.getElementById('out-equi').textContent = fmt(equiSinReducir) + ' ' + destinoCfg.unit + '/día';
+  document.getElementById('out-equi-note').textContent = destinoCfg.label + ' — sin ajuste por tolerancia';
+  document.getElementById('out-final').textContent = fmt(dosisFinal) + ' ' + destinoCfg.unit + '/día';
+  document.getElementById('out-final-note').textContent = 'con reducción del ' + reduccionPct + '%';
 
-  if(isFentTD || destinoKey==='buprenorfina_td'){
-    // el rescate no se da con el parche: se calcula sobre el total diario de morfina equivalente
-    const totalDiarioMorfinaEquiv = isFentTD
-      ? (dosisFinal * 24 / 1) // mcg/h *24 = mcg/día fentanilo; convertir a mg morfina VO equiv: mcg/día ÷ 1000 *100 = mcg/día *0.1... usamos factor inverso
-      : null;
-    if(isFentTD){
-      const fentMcgDia = dosisFinal*24;
-      const morfinaEquivDia = fentMcgDia * 0.1; // 1mcg fent = 0.1 mg morfina VO (100:1 relation, see FACTORS.fentanilo_parenteral)
-      rescateBase = morfinaEquivDia;
+  // dosis por toma vs parche
+  const cardToma = document.getElementById('card-toma');
+  const cardPatch = document.getElementById('card-patch');
+
+  if(destinoCfg.isPatch){
+    cardToma.style.display = 'none';
+    cardPatch.style.display = 'block';
+
+    if(destinoKey === 'buprenorfina_td'){
+      const r = roundPatchBup(dosisFinal);
+      document.getElementById('out-patch').textContent = r.chosen + ' mcg/h';
+      let note = 'Cálculo: ' + fmt(dosisFinal) + ' mcg/h → ' + destinoCfg.patchInterval.split('·')[1].trim() + '.';
+      const noteEl = document.getElementById('out-patch-note');
+      if(r.exceeded){
+        note += ' El valor calculado supera la presentación máxima (20 mcg/h): considerar combinar parches o rotar a otro opioide.';
+        noteEl.className = 'note alert';
+      } else if(r.closerToLower){
+        note += ' Ojo: el valor calculado está más cerca de ' + r.lower + ' mcg/h — considerá esa alternativa según criterio clínico.';
+        noteEl.className = 'note alert';
+      } else {
+        noteEl.className = 'note';
+      }
+      noteEl.textContent = note;
     } else {
-      // buprenorfina: dosisFinal está en mg de buprenorfina/día equivalente aportado por el parche (aprox), reconvertir
-      rescateBase = dosisFinal * destinoInfo.factor; // vuelve a mg morfina VO
+      // fentanilo TD: dosisFinal ya es un valor comercial de la tabla
+      document.getElementById('out-patch').textContent = fmt(dosisFinal) + ' mcg/h';
+      document.getElementById('out-patch-note').className = 'note';
+      document.getElementById('out-patch-note').textContent = destinoCfg.patchInterval + '. Valor ajustado al escalón comercial más cercano según DEMO.';
     }
+  } else {
+    cardToma.style.display = 'block';
+    cardPatch.style.display = 'none';
+    const dosisPorToma = dosesPerDay > 0 ? dosisFinal/dosesPerDay : dosisFinal;
+    let tomaUnit = destinoCfg.unit;
+    if(dosesPerDay === 24) tomaUnit += '/h';
+    document.getElementById('out-toma').textContent = fmt(dosisPorToma) + ' ' + tomaUnit;
+    document.getElementById('out-toma-note').textContent = doseInterval + (dosesPerDay===24 ? '' : ' ('+dosesPerDay+' tomas/día)');
+  }
+
+  // rescate
+  let rescateBase, rescateUnit, rescateLabel, rescateNote = '';
+  if(destinoCfg.isPatch){
+    rescateBase = demoFinal; // equivalente diario de morfina VO, post-reducción
     rescateUnit = 'mg';
     rescateLabel = 'Morfina VO';
     rescateNote = 'El parche no se usa para rescates: se calcula sobre el equivalente diario en morfina de acción rápida.';
+  } else {
+    rescateBase = dosisFinal;
+    rescateUnit = destinoCfg.unit;
+    rescateLabel = destinoCfg.label;
+    rescateNote = '10% de la dosis final de ' + destinoCfg.label + ', por rescate';
+    if(destinoKey === 'metadona'){
+      rescateNote += '. Considerar rescatar con opioide de acción rápida distinto a metadona por su farmacocinética prolongada.';
+    }
   }
-
   const rescateDosis = rescateBase * 0.10;
-
-  // render tape
-  tapeSteps.push({k:'Factor aplicado', v: isMetadona ? metRatio+':1' : isFentTD ? 'tabla' : (destinoInfo.factor+':1')});
-  tapeSteps.push({k:'Equianalgésica', v: fmt(equiSinReducir)+' '+destinoUnit});
-  tapeSteps.push({k:'Reducción '+reduccionPct+'%', v: fmt(dosisFinal)+' '+destinoUnit});
-
-  const tapeEl = document.getElementById('tape');
-  tapeEl.innerHTML = tapeSteps.map((s,i) => `<div class="step"><span class="k">${s.k}</span><span class="v">${s.v}</span></div>`).join('');
-
-  document.getElementById('out-equi').textContent = fmt(equiSinReducir)+' '+destinoUnit+'/día';
-  document.getElementById('out-equi-note').textContent = destinoLabel+' — sin ajuste por tolerancia';
-
-  document.getElementById('out-final').textContent = fmt(dosisFinal)+' '+destinoUnit+'/día';
-  document.getElementById('out-final-note').textContent = 'con reducción del '+reduccionPct+'%';
-
-  document.getElementById('out-toma').textContent = fmt(dosisPorToma)+' '+destinoUnit;
-  document.getElementById('out-toma-note').textContent = doseInterval+' ('+dosesPerDay+' tomas/día)';
-
-  document.getElementById('out-rescate').textContent = fmt(rescateDosis)+' '+rescateUnit;
-  document.getElementById('out-rescate-note').textContent = rescateNote || ('10% de la dosis final de '+destinoLabel+', por rescate');
+  document.getElementById('out-rescate').textContent = fmt(rescateDosis) + ' ' + rescateUnit;
+  document.getElementById('out-rescate-note').textContent = rescateNote;
 }
 
+/* ===================== TAB 2: CONCENTRACIÓN ===================== */
+function calcularConc(){
+  const farmaco = document.getElementById('conc-farmaco').value;
+  const pct = parseFloat(document.getElementById('conc-porcentaje').value);
+  const mgPorMl = pct * 10;
+
+  document.getElementById('conc-mgml-hint').textContent =
+    'Solución de ' + farmaco + ' al ' + pct + '% = ' + fmt(mgPorMl) + ' mg/mL.';
+
+  const dosisMg = parseFloat(document.getElementById('conc-dosis-mg').value) || 0;
+  const volumenMl = mgPorMl > 0 ? dosisMg / mgPorMl : 0;
+  document.getElementById('conc-out-ml').textContent = fmt(volumenMl) + ' mL';
+  document.getElementById('conc-out-ml-note').textContent =
+    fmt(dosisMg) + ' mg de ' + farmaco + ' al ' + pct + '% equivalen a ' + fmt(volumenMl) + ' mL.';
+
+  const volEntrada = parseFloat(document.getElementById('conc-vol-ml').value) || 0;
+  const mgResultado = volEntrada * mgPorMl;
+  document.getElementById('conc-out-mg').textContent = fmt(mgResultado) + ' mg';
+  document.getElementById('conc-out-mg-note').textContent =
+    fmt(volEntrada) + ' mL de ' + farmaco + ' al ' + pct + '% equivalen a ' + fmt(mgResultado) + ' mg.';
+}
+
+/* ===================== TAB 3: AJUSTE DE DOSIS ===================== */
+const ajusteOpioideSelect = document.getElementById('ajuste-opioide');
+populateSelect(ajusteOpioideSelect, DESTINO_KEYS);
+ajusteOpioideSelect.value = 'morfina_vo';
+
+function onAjusteOpioideChange(){
+  const key = ajusteOpioideSelect.value;
+  const cfg = OPIOIDS[key];
+  const isPatch = !!cfg.isPatch;
+  document.getElementById('ajuste-normal-fields').style.display = isPatch ? 'none' : 'block';
+  document.getElementById('ajuste-patch-fields').style.display = isPatch ? 'block' : 'none';
+  document.getElementById('ajuste-unit').textContent = cfg.unit;
+  calcularAjuste();
+}
+
+function onAjusteModoChange(){
+  const modo = document.getElementById('ajuste-modo').value;
+  document.getElementById('ajuste-directa-row').style.display = modo==='directa' ? 'grid' : 'none';
+  document.getElementById('ajuste-conc-row').style.display = modo==='concentracion' ? 'grid' : 'none';
+  calcularAjuste();
+}
+
+function updateAjusteSlider(){
+  const s = document.getElementById('ajuste-slider');
+  const v = parseInt(s.value);
+  const pctFromCenter = (v/100)*50; // -50..+50 relative to center 50%
+  s.style.setProperty('--pctneg', Math.min(50, 50-Math.max(0,-pctFromCenter)) + '%');
+  s.style.setProperty('--pctpos', (50+Math.max(0,pctFromCenter)) + '%');
+  const label = document.getElementById('ajuste-slider-val');
+  label.textContent = (v>0? '+':'') + v + '%';
+  label.style.color = v<0 ? 'var(--rescue)' : (v>0 ? 'var(--primary)' : 'var(--ink-soft)');
+}
+
+function calcularAjuste(){
+  const key = ajusteOpioideSelect.value;
+  const cfg = OPIOIDS[key];
+  const pct = parseInt(document.getElementById('ajuste-slider').value);
+  const factor = 1 + (pct/100);
+  const cardToma = document.getElementById('aj-card-toma');
+  const cardPatch = document.getElementById('aj-card-patch');
+  const cardMax = document.getElementById('aj-card-maxrescates');
+
+  if(cfg.isPatch){
+    cardToma.style.display = 'none';
+    cardPatch.style.display = 'block';
+    cardMax.style.display = 'none';
+
+    const actual = parseFloat(document.getElementById('ajuste-patch-dosis').value) || 0;
+    const nueva = actual * factor;
+
+    document.getElementById('aj-out-total-actual').textContent = fmt(actual) + ' mcg/h';
+    document.getElementById('aj-out-total-actual-note').textContent = cfg.label + ' (tasa de liberación actual)';
+    document.getElementById('aj-out-total-nueva').textContent = fmt(nueva) + ' mcg/h';
+    document.getElementById('aj-out-total-nueva-note').textContent = (pct>=0?'aumento':'reducción') + ' del ' + Math.abs(pct) + '%';
+
+    let patchDisplay, patchNote, alertNote=false;
+    if(key === 'buprenorfina_td'){
+      const r = roundPatchBup(nueva);
+      patchDisplay = r.chosen + ' mcg/h';
+      patchNote = 'Cálculo: ' + fmt(nueva) + ' mcg/h.';
+      if(r.exceeded){ patchNote += ' Supera la presentación máxima (20 mcg/h): considerar combinar parches u otro opioide.'; alertNote=true; }
+      else if(r.closerToLower){ patchNote += ' Más cerca de ' + r.lower + ' mcg/h — considerá esa alternativa según criterio clínico.'; alertNote=true; }
+    } else {
+      const snapped = fentaniloTDfromDEMO(fentaniloTDtoDEMO(nueva));
+      patchDisplay = snapped + ' mcg/h';
+      patchNote = 'Ajustado al escalón comercial más cercano (cálculo: ' + fmt(nueva) + ' mcg/h).';
+    }
+    document.getElementById('aj-out-patch').textContent = patchDisplay;
+    const patchNoteEl = document.getElementById('aj-out-patch-note');
+    patchNoteEl.textContent = patchNote;
+    patchNoteEl.className = alertNote ? 'note alert' : 'note';
+
+    // rescate: reconvertir a morfina VO equivalente
+    const demoEquivNueva = cfg.toDEMO(nueva);
+    const rescate = demoEquivNueva * 0.10;
+    document.getElementById('aj-out-rescate').textContent = fmt(rescate) + ' mg';
+    document.getElementById('aj-out-rescate-note').textContent = 'Morfina VO — el parche no se usa para rescates.';
+
+  } else {
+    cardToma.style.display = 'block';
+    cardPatch.style.display = 'none';
+    cardMax.style.display = 'block';
+
+    const modo = document.getElementById('ajuste-modo').value;
+    let dosisPorTomaActual, horas;
+    if(modo === 'concentracion'){
+      const conc = parseFloat(document.getElementById('ajuste-conc-pct').value);
+      const ml = parseFloat(document.getElementById('ajuste-conc-ml').value) || 0;
+      dosisPorTomaActual = ml * conc * 10;
+      horas = parseFloat(document.getElementById('ajuste-conc-horas').value) || 1;
+    } else {
+      dosisPorTomaActual = parseFloat(document.getElementById('ajuste-dosis-mg').value) || 0;
+      horas = parseFloat(document.getElementById('ajuste-horas').value) || 1;
+    }
+
+    const tomasPorDiaExacto = 24/horas;
+    const tomasPorDia = Math.round(tomasPorDiaExacto);
+    const hint = document.getElementById('ajuste-horas-hint');
+    if(Math.abs(tomasPorDiaExacto - tomasPorDia) > 0.01){
+      hint.textContent = 'Cada ' + horas + 'h no es un intervalo estándar (24h ÷ ' + horas + ' = ' + fmt(tomasPorDiaExacto) + ' tomas). Se usó ' + tomasPorDia + ' tomas/día para el cálculo.';
+    } else {
+      hint.textContent = 'Equivale a ' + tomasPorDia + ' tomas/día.';
+    }
+
+    const totalActual = dosisPorTomaActual * tomasPorDia;
+    const totalNuevo = totalActual * factor;
+    const dosisPorTomaNueva = totalNuevo / tomasPorDia;
+    const rescate = totalNuevo * 0.10;
+
+    document.getElementById('aj-out-total-actual').textContent = fmt(totalActual) + ' ' + cfg.unit + '/día';
+    document.getElementById('aj-out-total-actual-note').textContent = cfg.label + ' — ' + fmt(dosisPorTomaActual) + ' ' + cfg.unit + '/toma × ' + tomasPorDia + ' tomas';
+    document.getElementById('aj-out-total-nueva').textContent = fmt(totalNuevo) + ' ' + cfg.unit + '/día';
+    document.getElementById('aj-out-total-nueva-note').textContent = (pct>=0?'aumento':'reducción') + ' del ' + Math.abs(pct) + '%';
+    document.getElementById('aj-out-toma').textContent = fmt(dosisPorTomaNueva) + ' ' + cfg.unit;
+    document.getElementById('aj-out-toma-note').textContent = 'cada ' + horas + 'h (' + tomasPorDia + ' tomas/día)';
+    document.getElementById('aj-out-rescate').textContent = fmt(rescate) + ' ' + cfg.unit;
+    document.getElementById('aj-out-rescate-note').textContent = '10% de la nueva dosis total, por rescate';
+    document.getElementById('aj-out-maxrescates').textContent = tomasPorDia;
+  }
+}
+
+/* ===================== INIT ===================== */
+updateOrigenFieldUI();
 updateSlider();
 populateTomas();
 calcular();
+calcularConc();
+onAjusteOpioideChange();
+onAjusteModoChange();
+updateAjusteSlider();
+calcularAjuste();
 </script>
 </body>
 </html>
