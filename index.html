@@ -270,14 +270,60 @@
   .conc-result .big{font-family:var(--mono); font-size:26px; font-weight:700;}
   .conc-result .note{font-size:12.5px; opacity:.8; margin-top:6px;}
 
+  .var-row{
+    display:grid;
+    grid-template-columns:1fr 1fr auto;
+    gap:10px;
+    align-items:end;
+    margin-bottom:10px;
+    padding:12px;
+    background:var(--bg);
+    border-radius:8px;
+    border:1px solid var(--line);
+  }
+  @media (max-width:560px){ .var-row{grid-template-columns:1fr 1fr; } .var-row .row-remove{grid-column:1/3; justify-self:end;} }
+  .var-row label{margin-bottom:5px;}
+  .row-remove{
+    background:transparent;
+    border:1.5px solid var(--rescue);
+    color:var(--rescue);
+    border-radius:7px;
+    width:38px;
+    height:38px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .add-row-btn{
+    margin:2px 0 14px;
+    padding:9px 14px;
+    border:1.5px dashed var(--primary);
+    background:transparent;
+    color:var(--primary-dark);
+    border-radius:8px;
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .var-breakdown-row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid rgba(255,255,255,.12);
+    font-size:13.5px;
+  }
+  .var-breakdown-row:last-child{border-bottom:none;}
+  .var-breakdown-row .qty{opacity:.75;}
+  .var-breakdown-row .amt{font-family:var(--mono); font-weight:700;}
+
   #tab-concentracion{display:none;}
   #tab-ajuste{display:none;}
 
   input[type=range].bidir{
     background:linear-gradient(to right,
-      var(--rescue) 0%, var(--rescue) var(--pctneg,50%),
-      var(--line) var(--pctneg,50%), var(--line) var(--pctpos,50%),
-      var(--primary) var(--pctpos,50%), var(--primary) 100%);
+      var(--line) 0%, var(--line) var(--lb,50%),
+      var(--barcolor,var(--line)) var(--lb,50%), var(--barcolor,var(--line)) var(--rb,50%),
+      var(--line) var(--rb,50%), var(--line) 100%);
   }
   input[type=range].bidir::-webkit-slider-thumb{ border-color: var(--ink); }
   input[type=range].bidir::-moz-range-thumb{ border-color: var(--ink); }
@@ -483,6 +529,14 @@
       <!-- Campos para fármacos NO parche -->
       <div id="ajuste-normal-fields">
         <div class="field">
+          <label for="ajuste-esquema">Esquema de tomas</label>
+          <select id="ajuste-esquema" onchange="onAjusteEsquemaChange()">
+            <option value="uniforme">Misma dosis en cada toma</option>
+            <option value="variable">Dosis distintas según la toma (ej. dosis mayor nocturna)</option>
+          </select>
+        </div>
+
+        <div class="field">
           <label for="ajuste-modo">Cómo querés ingresar la dosis</label>
           <select id="ajuste-modo" onchange="onAjusteModoChange()">
             <option value="directa">Dosis directa (mg)</option>
@@ -490,9 +544,21 @@
           </select>
         </div>
 
-        <div class="row" id="ajuste-directa-row">
+        <div class="field" id="ajuste-conc-shared-field" style="display:none;">
+          <label for="ajuste-conc-pct">Concentración de la solución</label>
+          <select id="ajuste-conc-pct" onchange="calcularAjuste()">
+            <option value="0.5">0.5%</option>
+            <option value="1" selected>1%</option>
+            <option value="2">2%</option>
+            <option value="3">3%</option>
+            <option value="5">5%</option>
+          </select>
+        </div>
+
+        <!-- ESQUEMA UNIFORME -->
+        <div class="row" id="ajuste-uniforme-block">
           <div class="field">
-            <label for="ajuste-dosis-mg">Dosis por toma (<span id="ajuste-unit">mg</span>)</label>
+            <label for="ajuste-dosis-mg" id="ajuste-dosis-mg-label">Dosis por toma (mg)</label>
             <input type="number" id="ajuste-dosis-mg" value="10" step="0.5" min="0" oninput="calcularAjuste()">
           </div>
           <div class="field">
@@ -501,26 +567,16 @@
           </div>
         </div>
 
-        <div class="row" id="ajuste-conc-row" style="display:none;">
-          <div class="field">
-            <label for="ajuste-conc-pct">Concentración</label>
-            <select id="ajuste-conc-pct" onchange="calcularAjuste()">
-              <option value="0.5">0.5%</option>
-              <option value="1" selected>1%</option>
-              <option value="2">2%</option>
-              <option value="3">3%</option>
-              <option value="5">5%</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="ajuste-conc-ml">Volumen por toma (mL)</label>
-            <input type="number" id="ajuste-conc-ml" value="1" step="0.1" min="0" oninput="calcularAjuste()">
-          </div>
-          <div class="field">
-            <label for="ajuste-conc-horas">Cada cuántas horas</label>
-            <input type="number" id="ajuste-conc-horas" value="6" step="1" min="1" max="24" oninput="calcularAjuste()">
+        <!-- ESQUEMA VARIABLE -->
+        <div id="ajuste-variable-block" style="display:none;">
+          <div id="ajuste-var-rows"></div>
+          <button type="button" onclick="addVarRow()" class="add-row-btn">+ Agregar grupo de dosis</button>
+          <div class="field" style="margin-top:14px;">
+            <label for="ajuste-var-intervalo">Intervalo entre tomas (horas) — referencial</label>
+            <input type="number" id="ajuste-var-intervalo" value="4" step="1" min="1" max="24" oninput="calcularAjuste()">
           </div>
         </div>
+
         <p class="hint" id="ajuste-horas-hint"></p>
       </div>
 
@@ -565,6 +621,10 @@
           <div class="label">Dosis nueva por toma</div>
           <div class="big" id="aj-out-toma">—</div>
           <div class="note" id="aj-out-toma-note"></div>
+        </div>
+        <div class="result-card" id="aj-card-variable" style="display:none; grid-column:1/-1;">
+          <div class="label">Esquema nuevo por grupo de toma</div>
+          <div id="aj-variable-breakdown"></div>
         </div>
         <div class="result-card patch" id="aj-card-patch" style="display:none;">
           <div class="label">Parche sugerido</div>
@@ -915,32 +975,92 @@ const ajusteOpioideSelect = document.getElementById('ajuste-opioide');
 populateSelect(ajusteOpioideSelect, DESTINO_KEYS);
 ajusteOpioideSelect.value = 'morfina_vo';
 
+let ajusteVarRows = [
+  {cantidad:4, valor:0.5},
+  {cantidad:2, valor:0.75}
+];
+
 function onAjusteOpioideChange(){
   const key = ajusteOpioideSelect.value;
   const cfg = OPIOIDS[key];
   const isPatch = !!cfg.isPatch;
   document.getElementById('ajuste-normal-fields').style.display = isPatch ? 'none' : 'block';
   document.getElementById('ajuste-patch-fields').style.display = isPatch ? 'block' : 'none';
-  document.getElementById('ajuste-unit').textContent = cfg.unit;
   calcularAjuste();
 }
 
 function onAjusteModoChange(){
   const modo = document.getElementById('ajuste-modo').value;
-  document.getElementById('ajuste-directa-row').style.display = modo==='directa' ? 'grid' : 'none';
-  document.getElementById('ajuste-conc-row').style.display = modo==='concentracion' ? 'grid' : 'none';
+  const esConc = modo === 'concentracion';
+  document.getElementById('ajuste-conc-shared-field').style.display = esConc ? 'block' : 'none';
+  document.getElementById('ajuste-dosis-mg-label').textContent = esConc ? 'Volumen por toma (mL)' : 'Dosis por toma (mg)';
+  renderVarRows();
+  calcularAjuste();
+}
+
+function onAjusteEsquemaChange(){
+  const esquema = document.getElementById('ajuste-esquema').value;
+  document.getElementById('ajuste-uniforme-block').style.display = esquema==='uniforme' ? 'grid' : 'none';
+  document.getElementById('ajuste-variable-block').style.display = esquema==='variable' ? 'block' : 'none';
+  document.getElementById('ajuste-horas-hint').style.display = esquema==='uniforme' ? 'block' : 'none';
+  if(esquema==='variable') renderVarRows();
+  calcularAjuste();
+}
+
+function renderVarRows(){
+  const modo = document.getElementById('ajuste-modo').value;
+  const esConc = modo === 'concentracion';
+  const container = document.getElementById('ajuste-var-rows');
+  container.innerHTML = ajusteVarRows.map((row, i) => `
+    <div class="var-row">
+      <div class="field" style="margin-bottom:0;">
+        <label>Cantidad de tomas</label>
+        <input type="number" min="1" step="1" value="${row.cantidad}" oninput="updateVarRow(${i},'cantidad',this.value)">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>${esConc ? 'Volumen c/u (mL)' : 'Dosis c/u (mg)'}</label>
+        <input type="number" min="0" step="${esConc?'0.05':'0.5'}" value="${row.valor}" oninput="updateVarRow(${i},'valor',this.value)">
+      </div>
+      <button type="button" class="row-remove" onclick="removeVarRow(${i})" title="Quitar grupo" ${ajusteVarRows.length<=1?'disabled style="opacity:.3;cursor:not-allowed;"':''}>×</button>
+    </div>
+  `).join('');
+}
+
+function updateVarRow(i, field, value){
+  ajusteVarRows[i][field] = parseFloat(value) || 0;
+  calcularAjuste();
+}
+
+function addVarRow(){
+  ajusteVarRows.push({cantidad:1, valor:0});
+  renderVarRows();
+  calcularAjuste();
+}
+
+function removeVarRow(i){
+  if(ajusteVarRows.length<=1) return;
+  ajusteVarRows.splice(i,1);
+  renderVarRows();
   calcularAjuste();
 }
 
 function updateAjusteSlider(){
   const s = document.getElementById('ajuste-slider');
   const v = parseInt(s.value);
-  const pctFromCenter = (v/100)*50; // -50..+50 relative to center 50%
-  s.style.setProperty('--pctneg', Math.min(50, 50-Math.max(0,-pctFromCenter)) + '%');
-  s.style.setProperty('--pctpos', (50+Math.max(0,pctFromCenter)) + '%');
+  const pos = (v+100)/2; // posición del thumb en % del track (0..100), centro = 50
+  const lb = Math.min(pos,50);
+  const rb = Math.max(pos,50);
+  s.style.setProperty('--lb', lb + '%');
+  s.style.setProperty('--rb', rb + '%');
+  s.style.setProperty('--barcolor', v<0 ? '#B3502E' : (v>0 ? '#2F6E5E' : '#D6DEDA'));
   const label = document.getElementById('ajuste-slider-val');
   label.textContent = (v>0? '+':'') + v + '%';
   label.style.color = v<0 ? 'var(--rescue)' : (v>0 ? 'var(--primary)' : 'var(--ink-soft)');
+}
+
+// convierte un "valor" ingresado (mg directos, o mL si el modo es concentración) a mg reales
+function valorAMg(valor, modo, conc){
+  return modo === 'concentracion' ? valor * conc * 10 : valor;
 }
 
 function calcularAjuste(){
@@ -949,11 +1069,13 @@ function calcularAjuste(){
   const pct = parseInt(document.getElementById('ajuste-slider').value);
   const factor = 1 + (pct/100);
   const cardToma = document.getElementById('aj-card-toma');
+  const cardVariable = document.getElementById('aj-card-variable');
   const cardPatch = document.getElementById('aj-card-patch');
   const cardMax = document.getElementById('aj-card-maxrescates');
 
   if(cfg.isPatch){
     cardToma.style.display = 'none';
+    cardVariable.style.display = 'none';
     cardPatch.style.display = 'block';
     cardMax.style.display = 'none';
 
@@ -982,28 +1104,66 @@ function calcularAjuste(){
     patchNoteEl.textContent = patchNote;
     patchNoteEl.className = alertNote ? 'note alert' : 'note';
 
-    // rescate: reconvertir a morfina VO equivalente
     const demoEquivNueva = cfg.toDEMO(nueva);
     const rescate = demoEquivNueva * 0.10;
     document.getElementById('aj-out-rescate').textContent = fmt(rescate) + ' mg';
     document.getElementById('aj-out-rescate-note').textContent = 'Morfina VO — el parche no se usa para rescates.';
+    return;
+  }
+
+  const modo = document.getElementById('ajuste-modo').value;
+  const conc = parseFloat(document.getElementById('ajuste-conc-pct').value);
+  const esquema = document.getElementById('ajuste-esquema').value;
+  cardMax.style.display = 'block';
+
+  if(esquema === 'variable'){
+    cardToma.style.display = 'none';
+    cardVariable.style.display = 'block';
+    cardPatch.style.display = 'none';
+
+    let totalActual = 0, totalTomas = 0;
+    const filas = ajusteVarRows.map(row=>{
+      const dosisMg = valorAMg(row.valor, modo, conc);
+      totalActual += dosisMg * row.cantidad;
+      totalTomas += row.cantidad;
+      return {cantidad: row.cantidad, valor: row.valor, dosisMg};
+    });
+
+    const totalNuevo = totalActual * factor;
+    const rescate = totalNuevo * 0.10;
+    const intervalo = parseFloat(document.getElementById('ajuste-var-intervalo').value) || null;
+
+    document.getElementById('aj-out-total-actual').textContent = fmt(totalActual) + ' ' + cfg.unit + '/día';
+    document.getElementById('aj-out-total-actual-note').textContent = cfg.label + ' — ' + totalTomas + ' tomas/día en total' + (intervalo?(' (c/'+intervalo+'h aprox.)'):'');
+    document.getElementById('aj-out-total-nueva').textContent = fmt(totalNuevo) + ' ' + cfg.unit + '/día';
+    document.getElementById('aj-out-total-nueva-note').textContent = (pct>=0?'aumento':'reducción') + ' del ' + Math.abs(pct) + '%, escalado proporcionalmente en cada grupo';
+    document.getElementById('aj-out-rescate').textContent = fmt(rescate) + ' ' + cfg.unit;
+    document.getElementById('aj-out-rescate-note').textContent = '10% de la nueva dosis total, por rescate';
+    document.getElementById('aj-out-maxrescates').textContent = totalTomas;
+
+    const breakdown = document.getElementById('aj-variable-breakdown');
+    breakdown.innerHTML = filas.map(f=>{
+      const nuevoMg = f.dosisMg * factor;
+      let display;
+      if(modo === 'concentracion'){
+        const nuevoMl = conc>0 ? nuevoMg/(conc*10) : 0;
+        display = fmt(nuevoMl) + ' mL (' + fmt(nuevoMg) + ' mg)';
+      } else {
+        display = fmt(nuevoMg) + ' mg';
+      }
+      return `<div class="var-breakdown-row"><span class="qty">${f.cantidad} toma${f.cantidad!==1?'s':''} de ${modo==='concentracion'?fmt(f.valor)+' mL':fmt(f.valor)+' mg'} →</span><span class="amt">${display}</span></div>`;
+    }).join('');
+
+    document.getElementById('ajuste-horas-hint').textContent = '';
 
   } else {
     cardToma.style.display = 'block';
+    cardVariable.style.display = 'none';
     cardPatch.style.display = 'none';
-    cardMax.style.display = 'block';
 
-    const modo = document.getElementById('ajuste-modo').value;
-    let dosisPorTomaActual, horas;
-    if(modo === 'concentracion'){
-      const conc = parseFloat(document.getElementById('ajuste-conc-pct').value);
-      const ml = parseFloat(document.getElementById('ajuste-conc-ml').value) || 0;
-      dosisPorTomaActual = ml * conc * 10;
-      horas = parseFloat(document.getElementById('ajuste-conc-horas').value) || 1;
-    } else {
-      dosisPorTomaActual = parseFloat(document.getElementById('ajuste-dosis-mg').value) || 0;
-      horas = parseFloat(document.getElementById('ajuste-horas').value) || 1;
-    }
+    const valorIngresado = parseFloat(document.getElementById('ajuste-dosis-mg').value) || 0;
+    const dosisPorTomaActual = valorAMg(valorIngresado, modo, conc);
+    const horas = parseFloat(document.getElementById('ajuste-horas').value) || 1;
 
     const tomasPorDiaExacto = 24/horas;
     const tomasPorDia = Math.round(tomasPorDiaExacto);
@@ -1039,6 +1199,8 @@ calcular();
 calcularConc();
 onAjusteOpioideChange();
 onAjusteModoChange();
+onAjusteEsquemaChange();
+renderVarRows();
 updateAjusteSlider();
 calcularAjuste();
 </script>
